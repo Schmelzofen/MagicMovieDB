@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>MMDb | Favorites</title>
+</head>
+<body>
+    <%- include("../partials/header.ejs") %>
+    <main>
+        <section class="movieFavorites">
+            <h2>My favorites</h2>
+            <section class="movieFavoritesContainer">
+                <% movies.forEach(elt => { %> 
+                    <div class="singleMovie">
+                        <a href="/movie/<%- elt._id %>">
+                            <img src="<%- elt.movieposter %> " alt="<%- elt.title %> ">
+                        </a>
+                        <div class="singleMovieTitle">
+                            <p><%- elt.title %></p>
+                            <p><%- elt.director %></p>
+                            <div class="removeContainer">
+                                <form action="/remove" method="post">
+                                    <input type="hidden" name="Movie" value='<%- elt._id %>'>
+                                    <img src="/img/delete.png" alt="delete">
+                                    <input type="submit" value="Remove from Favorites">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %> 
+            </section>
+        </section>
+    </main>
+    <%- include("../partials/footer.ejs") %> 
+</body>
+</html>

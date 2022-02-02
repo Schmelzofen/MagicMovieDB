@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>MMDb | Detail</title>
+</head>
+<body>
+    <%- include("../partials/header.ejs") %>
+    <main>
+        <section class="movieDetail">
+            <% movie.forEach(elt => { %> 
+                <div class="titleDirector">
+                    <h2><%- elt.title %></h2>
+                    <span><%- elt.year %></span>
+                    <span>|</span>
+                    <span><%- elt.director %></span>
+                </div>
+                <div class="favEdit">
+                    <img src="/img/add.png" alt="addsymbol">
+                    <form action="/addtofavorite" method="post">
+                        <input type="hidden" name="Movie" value='<%- elt._id %>'>
+                        <input type="submit" value="Add to Favorites">
+                    </form>
+                    <button>Edit Movie</button>
+                </div>
+                <div class="grid">
+                    <div class="leftGrid">
+                        <img src="<%- elt.movieposter %>" alt="<%- elt.title %>">
+                        <div class="ratingDuration">
+                            <p>Rating: <span><%- elt.rate %></span></p>
+                            <p>Duration: <span><%- elt.duration %></span></p>
+                        </div>
+                    </div>
+                    <div class="rightGrid">
+                        <div class="gernes">
+                            <% for(i=0;i<movie[0].genre.length;i++){ %>
+                                <span><%- movie[0].genre[i] %> </span>
+                                <% } %> 
+                        </div>
+                        <div class="story">
+                            <h2>Story</h2>
+                            <p><%- elt.description %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="editForms">
+                    <form action="/editmovie" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="_id" value="<%- elt._id %>">
+                        <input type="text" name="title" placeholder="Title" value="<%- elt.title %>">
+                        <input type="text" name="year" placeholder="Year" value="<%- elt.year %>">
+                        <input type="text" name="director" placeholder="Director" value="<%- elt.director %>">
+                        <input type="text" name="genre" placeholder="Genre" value="<%- elt.genre %>">
+                        <input type="text" name="rate" placeholder="Rate" value="<%- elt.rate %>">
+                        <input type="text" name="movieposter" placeholder="URL for movieposter" value="<%- elt.movieposter %>">
+                        <input type="text" name="description" placeholder="Description" value="<%- elt.description %>">
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            <% }) %> 
+        </section>
+    </main>
+    <% include("../partials/footer.ejs") %> 
+</body>
+</html>
