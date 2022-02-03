@@ -11,6 +11,7 @@ const getFavoriteMovies = require("./use-cases/getFavMovies")
 const removeFromFavorites = require("./use-cases/removeFromFavorites")
 const addMovieToDb = require("./use-cases/addMovieToDb")
 const edit = require("./use-cases/edit")
+const search = require("./use-cases/searchMovies")
 
 const app = express()
 app.set("view engine", "ejs")
@@ -107,6 +108,11 @@ app.get("/addmovie", function addMovieController(req, res) {
                 res.send("Somethind bad happened")
             })
     })
+})
+
+app.get("/search", function searchMovieController(req, res) {
+    const query = req.query.query
+    search(query).then((movies) => res.render("pages/search", { movies }))
 })
 
 app.post("/editmovie", function editMovieController(req, res) {

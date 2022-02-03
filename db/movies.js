@@ -1,64 +1,59 @@
 const { connect } = require("./connection")
 var ObjectId = require('mongodb').ObjectId
 
-function getAllMovies() {
-    return connect()
-        .then((db) => {
-            const moviePromise = db.collection("movies")
-                .find()
-                .toArray()
-            return moviePromise
-        })
+async function getAllMovies() {
+    const db = await connect()
+    const moviePromise = db.collection("movies")
+        .find()
+        .toArray()
+    return moviePromise
 }
 
-function getSingleMovie(id) {
-    return connect()
-        .then((db) => {
-            return db.collection("movies")
-                .findOne({ "_id": id })
-        })
+async function getSingleMovie(id) {
+    const db = await connect()
+    return db.collection("movies")
+        .findOne({ "_id": id })
 }
 
-function getFavMovies() {
-    return connect()
-        .then((db) => {
-            const moviePromise = db.collection("favorite")
-                .find()
-                .toArray()
-            return moviePromise
-        })
+async function getFavMovies() {
+    const db = await connect()
+    const moviePromise = db.collection("favorite")
+        .find()
+        .toArray()
+    return moviePromise
 }
 
-function addMovie(movie) {
-    return connect()
-        .then((db) => {
-            return db.collection("movies")
-                .insertOne(movie)
-        })
+async function addMovie(movie) {
+    const db = await connect()
+    return db.collection("movies")
+        .insertOne(movie)
 }
 
-function removeFromFav(id) {
-    return connect()
-        .then((db) => {
-            return db.collection("favorite")
-                .deleteOne({ "_id": id })
-        })
+async function removeFromFav(id) {
+    const db = await connect()
+    return db.collection("favorite")
+        .deleteOne({ "_id": id })
 }
 
-function addToFav(movie) {
-    return connect()
-        .then((db) => {
-            return db.collection("favorite")
-                .insertOne(movie)
-        })
+async function addToFav(movie) {
+    const db = await connect()
+    return db.collection("favorite")
+        .insertOne(movie)
 }
 
-function editMovie(id, movie) {
-    return connect()
-        .then((db) => {
-            return db.collection("movies")
-                .updateOne({ _id: id }, { $set: movie }, { upsert: true })
-        })
+async function editMovie(id, movie) {
+    const db = await connect()
+    return db.collection("movies")
+        .updateOne({ _id: id }, { $set: movie }, { upsert: true })
+}
+
+async function searchMovies(query) {
+    console.log(query)
+    const db = await connect()
+    const foundMovies = await db.collection("movies")
+        .find({ "title": { $regex: query } })
+        .toArray()
+    return foundMovies
 }
 
 module.exports = {
@@ -69,4 +64,5 @@ module.exports = {
     addToFav,
     getSingleMovie,
     editMovie,
+    searchMovies,
 }

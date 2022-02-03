@@ -1,16 +1,7 @@
 const movies = require("../db/movies")
 
-function addMovieToDb(movie) {
-    console.log(movie)
-    return new Promise((resolve, reject) => {
-        movies.addMovie(movie).then((result) => {
-            console.log(result)
-            resolve(result)
-        }).catch((err) => {
-            console.log(err)
-            reject(err)
-        })
-    })
+async function addMovieToDb(movie) {
+    const film = await movies.addMovie(movie)
 }
 
 module.exports = addMovieToDb

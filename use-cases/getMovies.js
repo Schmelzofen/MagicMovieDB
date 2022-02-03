@@ -1,11 +1,7 @@
 const movies = require("../db/movies")
 
-function getAllMovies() {
-    return new Promise((resolve) => {
-        movies.getAllMovies().then((movies) => {
-            resolve(movies)
-        })
-    })
+async function getAllMovies() {
+    return await movies.getAllMovies()
 }
 
 module.exports = getAllMovies
